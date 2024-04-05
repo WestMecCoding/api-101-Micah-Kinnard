@@ -9,7 +9,7 @@
 </head>
 <body>    
     <!-- hello from Index.html! -->
-    <h1>Global Average Temperatures from 1880-2023</h1>
+    <h1>Height and Weight from 200 Individuals</h1>
     <canvas id="myChart" width="400" height="200"></canvas>
     <script>
         window.addEventListener('load', fetchData);
@@ -19,9 +19,9 @@
             xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = xhr.responseText;
-                let globalTemps = processData(data);
-                // console.log(globalTemps);
-                renderChart(globalTemps);
+                let globalWeight = processData(data);
+                // console.log(globalWeight);
+                renderChart(globalWeight);
             } else {
                 console.log('something went wrong', xhr.statusText);
             }
@@ -29,28 +29,31 @@
         xhr.send();
     }
     function processData(data){
-        const years = [];
-        const temps = [];
+        const Height = [];
+        const Weight = [];
         const rows = data.split('\n').slice(1);
         rows.forEach(row => {
             const cols = row.split(',');
-            years.push(cols[0]);
-            temps.push(14 + parseFloat(cols[1]));
+            Height.push(cols[0]);
+            Weight.push(14 + parseFloat(cols[1]));
         });
-        return { years, temps};
+        return { Height, Weight};
     }
     function renderChart(data) { 
-        console.log('temps in renderChart', data);
+        console.log('Weight in renderChart', data);
         const ctx = document.getElementById('myChart').getContext('2d');
 
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: "Temperatures in Celsius",
-        data: data.tempts,
-        borderWidth: 1
+      labels: data.Height,
+      datasets: [
+      {
+        label: "Height and Weight for Individuals",
+                data: data.Weight,
+                borderWidth: 1,
+                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
       }]
     },
     options: {}
